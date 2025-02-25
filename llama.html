@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Weather Cards</title>
+    <style>
+        body {
+            background-color: #333;
+            display: flex;
+            justify-content: space-around;
+            padding: 20px;
+        }
+        
+        .weather-card {
+            width: 200px;
+            height: 200px;
+            background-color: #444;
+            border-radius: 10px;
+            padding: 20px;
+            display: inline-block;
+            margin: 10px;
+            position: relative;
+        }
+        
+        .wind {
+            background-color: #555;
+        }
+        
+        .wind .cloud {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            background-color: #fff;
+            border-radius: 50%;
+            animation: move-cloud 5s infinite;
+        }
+        
+        @keyframes move-cloud {
+            0% {
+                transform: translate(-50%, -50%) translateX(0);
+            }
+            50% {
+                transform: translate(-50%, -50%) translateX(100px);
+            }
+            100% {
+                transform: translate(-50%, -50%) translateX(0);
+            }
+        }
+        
+        .rain {
+            background-color: #666;
+        }
+        
+        .rain .raindrop {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 10px;
+            height: 10px;
+            background-color: #fff;
+            border-radius: 50%;
+            animation: fall-rain 2s infinite;
+        }
+        
+        @keyframes fall-rain {
+            0% {
+                top: 0;
+            }
+            100% {
+                top: 100%;
+            }
+        }
+        
+        .sun {
+            background-color: #fff;
+        }
+        
+        .sun .ray {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            background-color: #ffff00;
+            border-radius: 50%;
+            animation: shine-ray 2s infinite;
+        }
+        
+        @keyframes shine-ray {
+            0% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+        
+        .snow {
+            background-color: #777;
+        }
+        
+        .snow .snowflake {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 10px;
+            height: 10px;
+            background-color: #fff;
+            border-radius: 50%;
+            animation: fall-snow 3s infinite;
+        }
+        
+        @keyframes fall-snow {
+            0% {
+                top: 0;
+            }
+            100% {
+                top: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="weather-card wind">
+        <div class="cloud"></div>
+        <h2>Wind</h2>
+    </div>
+    <div class="weather-card rain">
+        <div class="raindrop"></div>
+        <div class="raindrop" style="animation-delay: 0.5s;"></div>
+        <div class="raindrop" style="animation-delay: 1s;"></div>
+        <h2>Rain</h2>
+    </div>
+    <div class="weather-card sun">
+        <div class="ray"></div>
+        <h2>Sun</h2>
+    </div>
+    <div class="weather-card snow">
+        <div class="snowflake"></div>
+        <div class="snowflake" style="animation-delay: 0.5s;"></div>
+        <div class="snowflake" style="animation-delay: 1s;"></div>
+        <h2>Snow</h2>
+    </div>
+
+    <script>
+        // Create multiple raindrops and snowflakes
+        for (let i = 0; i < 10; i++) {
+            const raindrop = document.createElement('div');
+            raindrop.className = 'raindrop';
+            raindrop.style.animationDelay = `${i * 0.2}s`;
+            document.querySelector('.rain').appendChild(raindrop);
+
+            const snowflake = document.createElement('div');
+            snowflake.className = 'snowflake';
+            snowflake.style.animationDelay = `${i * 0.2}s`;
+            document.querySelector('.snow').appendChild(snowflake);
+        }
+    </script>
+</body>
+</html>

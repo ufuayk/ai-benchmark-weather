@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Weather Cards</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #121212;
+            color: white;
+            font-family: Arial, sans-serif;
+            gap: 20px;
+        }
+        .weather-card {
+            width: 150px;
+            height: 200px;
+            background: #1e1e1e;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        /* Wind Animation */
+        .wind .cloud {
+            position: absolute;
+            width: 50px;
+            height: 30px;
+            background: #ccc;
+            border-radius: 50%;
+            top: 30px;
+            left: -60px;
+            animation: moveClouds 4s linear infinite;
+        }
+        @keyframes moveClouds {
+            from { left: -60px; }
+            to { left: 160px; }
+        }
+        /* Rain Animation */
+        .rain .raindrop {
+            position: absolute;
+            width: 3px;
+            height: 10px;
+            background: cyan;
+            top: -10px;
+            animation: fall 1s linear infinite;
+        }
+        @keyframes fall {
+            from { top: -10px; }
+            to { top: 200px; }
+        }
+        /* Sun Animation */
+        .sun {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: yellow;
+            border-radius: 50%;
+            box-shadow: 0 0 20px yellow;
+            animation: glow 2s infinite alternate;
+        }
+        @keyframes glow {
+            from { transform: scale(1); opacity: 0.8; }
+            to { transform: scale(1.2); opacity: 1; }
+        }
+        /* Snow Animation */
+        .snow .flake {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background: white;
+            border-radius: 50%;
+            top: -10px;
+            animation: snowFall 3s linear infinite;
+        }
+        @keyframes snowFall {
+            from { top: -10px; }
+            to { top: 200px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="weather-card wind">Wind<div class="cloud"></div></div>
+    <div class="weather-card rain">Rain</div>
+    <div class="weather-card sun"><div class="sun"></div>Sunny</div>
+    <div class="weather-card snow">Snow</div>
+    <script>
+        function createElements(container, className, count) {
+            for (let i = 0; i < count; i++) {
+                let element = document.createElement("div");
+                element.classList.add(className);
+                element.style.left = Math.random() * 150 + "px";
+                element.style.animationDuration = (Math.random() * 1 + 1) + "s";
+                container.appendChild(element);
+            }
+        }
+        
+        createElements(document.querySelector(".rain"), "raindrop", 15);
+        createElements(document.querySelector(".snow"), "flake", 10);
+    </script>
+</body>
+</html>

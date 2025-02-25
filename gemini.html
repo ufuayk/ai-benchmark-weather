@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Weather Cards</title>
+    <style>
+        body {
+            background-color: #222;
+            color: white;
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            display: flex;
+            gap: 20px;
+        }
+
+        .weather-card {
+            width: 200px;
+            height: 300px;
+            background-color: #333;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .weather-card h2 {
+            margin-top: 0;
+        }
+
+        /* Common Styles for Animated Elements */
+        .animated-element {
+            position: absolute;
+            pointer-events: none; /* Prevents interfering with clicks */
+        }
+
+        /* Wind Styles */
+        .wind .cloud {
+            position: absolute;
+            top: 20px;
+            width: 50px;
+            height: 30px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            animation: wind-cloud 10s linear infinite;
+        }
+
+        .wind .cloud:nth-child(1) {
+            left: 0;
+        }
+
+        .wind .cloud:nth-child(2) {
+            left: 50px;
+            animation-delay: 2s;
+        }
+
+        .wind .cloud:nth-child(3) {
+            left: 100px;
+            animation-delay: 4s;
+        }
+
+        @keyframes wind-cloud {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(250px); }
+        }
+
+        /* Rain Styles */
+        .rain .rain-drop {
+            position: absolute;
+            bottom: 0;
+            width: 1px;
+            height: 10px;
+            background-color: rgba(255, 255, 255, 0.7);
+            animation: rain-drop 1s linear infinite;
+        }
+
+        .rain .rain-drop:nth-child(1) {
+            left: 10px;
+        }
+
+        .rain .rain-drop:nth-child(2) {
+            left: 30px;
+            animation-delay: 0.2s;
+        }
+
+        .rain .rain-drop:nth-child(3) {
+            left: 50px;
+            animation-delay: 0.4s;
+        }
+        .rain .rain-drop:nth-child(4) {
+            left: 70px;
+            animation-delay: 0.6s;
+        }
+        .rain .rain-drop:nth-child(5) {
+            left: 90px;
+            animation-delay: 0.8s;
+        }
+        .rain .rain-drop:nth-child(6) {
+            left: 110px;
+            animation-delay: 0.1s;
+        }
+        .rain .rain-drop:nth-child(7) {
+            left: 130px;
+            animation-delay: 0.3s;
+        }
+        .rain .rain-drop:nth-child(8) {
+            left: 150px;
+            animation-delay: 0.5s;
+        }
+         .rain .rain-drop:nth-child(9) {
+            left: 170px;
+            animation-delay: 0.7s;
+        }
+        .rain .rain-drop:nth-child(10) {
+            left: 190px;
+            animation-delay: 0.9s;
+        }
+
+
+
+        @keyframes rain-drop {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(300px); }
+        }
+
+        /* Sun Styles */
+        .sun {
+            background: linear-gradient(to bottom, #ffc107, #ff9800); /* Gradient for warm feel */
+            color: #333; /* Use dark text for contrast */
+        }
+        .sun .sun-rays {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: #ffeb3b;
+            box-shadow: 0 0 20px #ffeb3b; /* Glow effect */
+            animation: sun-rotate 15s linear infinite;
+        }
+
+        @keyframes sun-rotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* Snow Styles */
+        .snow {
+            background: linear-gradient(to bottom, #d1ecf1, #fff); /* Gradient for a cold feel */
+            color: #222; /* Dark text for contrast */
+        }
+        .snow .snowflake {
+            position: absolute;
+            top: -10px; /* Start above the card */
+            width: 10px;
+            height: 10px;
+            background-color: white;
+            border-radius: 50%;
+            animation: snow-fall 5s linear infinite;
+        }
+
+        .snow .snowflake:nth-child(1) {
+            left: 10px;
+            animation-delay: 0.5s;
+        }
+
+        .snow .snowflake:nth-child(2) {
+            left: 40px;
+            animation-delay: 1s;
+        }
+        .snow .snowflake:nth-child(3) {
+            left: 70px;
+            animation-delay: 1.5s;
+        }
+
+        .snow .snowflake:nth-child(4) {
+            left: 100px;
+            animation-delay: 2s;
+        }
+        .snow .snowflake:nth-child(5) {
+            left: 130px;
+            animation-delay: 2.5s;
+        }
+        .snow .snowflake:nth-child(6) {
+            left: 160px;
+            animation-delay: 3s;
+        }
+        .snow .snowflake:nth-child(7) {
+            left: 190px;
+            animation-delay: 3.5s;
+        }
+
+
+        @keyframes snow-fall {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(320px); opacity: 0; } /* Slightly longer fall */
+        }
+
+        /* JavaScript injected card section  */
+        .js-card {
+            position: relative; /*  Needed for absolute positioning of elements. */
+            width: 200px;
+            height: 300px;
+            background-color: #444;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .js-card h2 {
+            margin-top: 0;
+        }
+
+        /* Element for display weather type  */
+        #weather-type{
+            margin: 10px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 80%;
+            text-align: center;
+        }
+        /*  Button style to set weather type   */
+        #set-weather {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        #set-weather:hover {
+            background-color: #3e8e41;
+        }
+
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="weather-card wind">
+            <h2>Windy</h2>
+            <div class="animated-element">
+                <div class="cloud"></div>
+                <div class="cloud"></div>
+                <div class="cloud"></div>
+            </div>
+        </div>
+
+        <div class="weather-card rain">
+            <h2>Rainy</h2>
+            <div class="animated-element">
+                <div class="rain-drop"></div>
+                <div class="rain-drop"></div>
+                <div class="rain-drop"></div>
+                <div class="rain-drop"></div>
+                <div class="rain-drop"></div>
+                <div class="rain-drop"></div>
+                <div class="rain-drop"></div>
+                <div class="rain-drop"></div>
+                <div class="rain-drop"></div>
+                <div class="rain-drop"></div>
+            </div>
+        </div>
+
+        <div class="weather-card sun">
+            <h2>Sunny</h2>
+             <div class="animated-element sun-rays"></div>
+        </div>
+
+        <div class="weather-card snow">
+            <h2>Snowy</h2>
+            <div class="animated-element">
+                <div class="snowflake"></div>
+                <div class="snowflake"></div>
+                <div class="snowflake"></div>
+                 <div class="snowflake"></div>
+                <div class="snowflake"></div>
+                <div class="snowflake"></div>
+                 <div class="snowflake"></div>
+            </div>
+        </div>
+
+        <div class="js-card">
+            <h2>Dynamic Weather</h2>
+            <input type="text" id="weather-type" placeholder="Enter weather type">
+            <button id="set-weather">Set Weather</button>
+        </div>
+    </div>
+
+
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const setWeatherButton = document.getElementById('set-weather');
+            const weatherTypeInput = document.getElementById('weather-type');
+            const jsCard = document.querySelector('.js-card');
+
+
+            setWeatherButton.addEventListener('click', function() {
+                const weatherType = weatherTypeInput.value.trim().toLowerCase();
+
+                //Remove any existing animated elements
+                while(jsCard.firstChild) {
+                    jsCard.removeChild(jsCard.firstChild);
+                }
+
+                // Add heading
+                const heading = document.createElement('h2');
+                heading.textContent = weatherType.toUpperCase();
+                jsCard.appendChild(heading);
+
+                let animatedElement;
+
+                switch (weatherType) {
+                    case 'wind':
+                        animatedElement = createWindAnimation();
+                        break;
+                    case 'rain':
+                        animatedElement = createRainAnimation();
+                        break;
+                    case 'sun':
+                        animatedElement = createSunAnimation();
+                        break;
+                    case 'snow':
+                        animatedElement = createSnowAnimation();
+                        break;
+                    default:
+                        jsCard.textContent = "Invalid weather type";
+                        return;
+                }
+
+                if(animatedElement){
+                  jsCard.appendChild(animatedElement);
+                }
+
+
+                weatherTypeInput.value = '';  // clear the input box
+
+            });
+
+
+            function createWindAnimation() {
+               const animatedElement = document.createElement('div');
+                animatedElement.classList.add('animated-element');
+
+                for (let i = 0; i < 3; i++) {
+                    const cloud = document.createElement('div');
+                    cloud.classList.add('cloud');
+                    cloud.style.animationDelay = (i * 2) + 's';
+                    cloud.style.left = (i * 50) + 'px';
+                    animatedElement.appendChild(cloud);
+                }
+                return animatedElement;
+            }
+
+            function createRainAnimation() {
+                const animatedElement = document.createElement('div');
+                animatedElement.classList.add('animated-element');
+
+                for (let i = 0; i < 10; i++) {
+                    const raindrop = document.createElement('div');
+                    raindrop.classList.add('rain-drop');
+                    raindrop.style.animationDelay = (i * 0.1) + 's'; // adjust delay for smooth animation
+                    raindrop.style.left = (i * 20) + 'px'; // adjust raindrop spacing
+                    animatedElement.appendChild(raindrop);
+                }
+                return animatedElement;
+            }
+
+
+            function createSunAnimation() {
+                const animatedElement = document.createElement('div');
+                animatedElement.classList.add('animated-element', 'sun-rays');
+                return animatedElement;
+            }
+
+            function createSnowAnimation() {
+                const animatedElement = document.createElement('div');
+                animatedElement.classList.add('animated-element');
+
+                for (let i = 0; i < 7; i++) {  // Create more snowflakes
+                    const snowflake = document.createElement('div');
+                    snowflake.classList.add('snowflake');
+                    snowflake.style.animationDelay = (i * 0.5) + 's';
+                    snowflake.style.left = (i * 30 + 10) + 'px'; // spread flakes more
+                    animatedElement.appendChild(snowflake);
+                }
+                return animatedElement;
+            }
+
+
+
+        });
+    </script>
+
+</body>
+</html>
